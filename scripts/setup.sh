@@ -13,3 +13,4 @@ if ! npm install; then
   echo "npm install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
+
