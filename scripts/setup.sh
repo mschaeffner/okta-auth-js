@@ -9,7 +9,7 @@ npm config set cache-min 10
 # Use newer, faster npm
 npm install -g npm@4.0.2
 
-if ! npm install; then
+if ! npm install --unsafe-perm; then
   echo "npm install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
