@@ -22,9 +22,15 @@ define(function(require) {
           origin: 'http://example.okta.com'
         });
       });
+      var iframeSpy = jasmine.createSpy('addEventListener').and.callFake(function(name, fn) {
+        expect(name).toEqual('load');
+        expect(fn).toEqual(jasmine.any(Function));
+        fn();
+      });
 
       test.iframe = {
         style: {},
+        addEventListener: iframeSpy,
         contentWindow: {
           postMessage: postMessageSpy
         },
@@ -80,6 +86,7 @@ define(function(require) {
         expect(test.iframe.style.display).toEqual('none');
         expect(test.iframe.src).toEqual('http://example.okta.com/auth/services/devicefingerprint');
         expect(document.body.appendChild).toHaveBeenCalledWith(test.iframe);
+        expect(test.iframe.addEventListener).toHaveBeenCalled();
         expect(test.iframe.parentElement.removeChild).toHaveBeenCalled();
         expect(fingerprint).toEqual('ABCD');
       })
